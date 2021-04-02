@@ -1,0 +1,21 @@
+{% extends parent_template|default:"examination/base_exam.html" %}
+
+{% block title %}
+    {{ block.super }} -  {{exam.examName}} Delete Exam
+{% endblock title %}
+
+{% block exam-block %}
+<div>
+    <div>
+        <form action="{{ exam.get_delete_url }}" method="post">
+            {% csrf_token %}
+            <p>
+                Are You sure want to Delete a Exam {{exam.examName}} ?
+            </p>
+            <a href="{{ exam.get_absolute_url }}">Cancel</a>
+            <button type="submit">Delete Exam</button>
+        </form>
+    </div>
+</div>      
+{% endblock exam-block %}
+    

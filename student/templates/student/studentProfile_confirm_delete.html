@@ -1,0 +1,21 @@
+{% extends parent_template|default:"student/base_student.html" %}
+
+{% block title %}
+    {{ block.super }} -  {{profile.student.fullName}} Delete Profile 
+{% endblock title %}
+
+{% block content %}
+<div>
+    <div>
+        <form action="{{ profile.get_delete_url }}" method="post">
+            {% csrf_token %}
+            <p>
+                Are You sure want to Delete a student Profile {{profile.student.fullName}} ?
+            </p>
+            <a href="{{ profile.get_absolute_url }}">Cancel</a>
+            <button type="submit">Delete Student Profile</button>
+        </form>
+    </div>
+</div>      
+{% endblock content %}
+    

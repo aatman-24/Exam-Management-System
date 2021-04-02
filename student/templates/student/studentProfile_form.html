@@ -1,0 +1,21 @@
+{% extends parent_template|default:"student/base_student.html" %}
+
+{% block title %}
+    {{ block.super }} -  Create Student Profile
+{% endblock title %}
+
+{% block content %}
+
+    <h2>{{student.fullName}}'s Profile</h2>
+
+    <div>
+        <div>
+            <form action="{% url 'student_profile_create' student.slug %}" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" >Create Student Profile</button>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
+    

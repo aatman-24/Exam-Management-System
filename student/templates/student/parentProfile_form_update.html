@@ -1,0 +1,18 @@
+{% extends parent_template|default:"student/base_student.html" %}
+
+{% block title %}
+    {{ block.super }} -  Update Parent Profile
+{% endblock title %}
+
+{% block content %}
+    <div>
+        <div>
+            <form action="{{ parentProfile.get_update_url }}" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" >Update Profile</button>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
+    

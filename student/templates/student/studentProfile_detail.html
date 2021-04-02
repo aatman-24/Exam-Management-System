@@ -1,0 +1,30 @@
+{% extends parent_template|default:"student/base_student.html" %}
+
+{% block title %}
+    {{ block.super }} -  {{ student.fullName }} Profile
+{% endblock title %}
+
+
+
+{% block content %}
+    
+    <h3> {{ student.fullName }} Profile </h3>
+    
+    <table>
+        {% for name, value in profile.get_fields %}
+            {% if value %}
+                <tr>
+                    <td> {{ name }} </td>
+                    <td> {{ value }} </td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+
+
+    <a href="{{ profile.get_update_url }}"> Update</a>  <br>
+    <a href="{{ profile.get_delete_url }}"> Delete</a>  <br>
+
+
+{% endblock content %}
+    

@@ -1,0 +1,18 @@
+{% extends parent_template|default:"base.html" %}
+
+
+
+
+{% block content %}
+
+    {% block exam-block %}
+        
+    {% endblock exam-block %}
+        
+    <footer>
+        <a href="{% url 'examination_exam_list' %}">Exam List</a> <br>
+        <a href="{% url 'examination_exam_pastExam' %}">Past Exam List</a> <br>
+        <a href="{% url 'examination_exam_futureExam' %}">Future Exam List</a> <br>
+    </footer>
+    
+{% endblock content %}

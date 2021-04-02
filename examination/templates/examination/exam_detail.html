@@ -1,0 +1,24 @@
+{% extends parent_template|default:"examination/base_exam.html" %}
+
+{% block title %}
+    {{ block.super }} -  {{ exam.examName }} 
+{% endblock title %}
+
+{% block exam-block %}
+
+    <h3> {{ exam.examName }} </h3>
+    <table>
+        {% for name, value in exam.get_fields %}
+            {% if value %}
+                <tr>
+                    <td> {{ name }} </td>
+                    <td> {{ value }} </td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+
+    <a href="{{ exam.get_update_url }}"> Update</a>  <br>
+    <a href="{{ exam.get_delete_url }}"> Delete</a>  <br>
+{% endblock exam-block %}
+    

@@ -1,0 +1,18 @@
+{% extends parent_template|default:"examination/base_exam.html" %}
+
+{% block title %}
+    {{ block.super }} -  Create Exam
+{% endblock title %}
+
+{% block content %}
+    <div>
+        <div>
+            <form action="{% url 'examination_exam_create' %}" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" >Create Exam</button>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
+    

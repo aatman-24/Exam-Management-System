@@ -1,0 +1,16 @@
+{% extends parent_template|default:"student/base_student.html" %}
+
+{% block title %}
+    {{ block.super }} -  List of Students 
+{% endblock title %}
+
+{% block content %}
+    <h3> List of Students </h3>
+    
+    {% for student in students %}
+        <a href="{{ student.get_absolute_url }}">{{student.fullName}}</a>  <br>
+    {% endfor %}
+        
+
+{% endblock content %}
+    

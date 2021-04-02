@@ -1,0 +1,15 @@
+{% extends parent_template|default:"examination/base_exam.html" %}
+
+{% block title %}
+    {{ block.super }} -  List of Exams 
+{% endblock title %}
+
+{% block exam-block %}
+    <h3> List of Exams </h3>
+
+    {% for exam in exams %}
+        <a href="{{ exam.get_absolute_url }}"> {{exam.examName}}</a>  <br>
+    {% endfor %}
+        
+{% endblock exam-block %}
+    

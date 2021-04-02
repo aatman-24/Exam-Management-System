@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>
+            {% block title %}
+                Result Generator
+            {% endblock %}
+        </title>
+
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'site/style.css' %}">
+        <header>
+            <!-- <img src="{% static 'site/logo.jpg' %}" alt="Site Logo"> -->
+            <!-- <h1>Result Generator</h1> -->
+        </header>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta   name="viewport" content="width=device-width , initial-scale=1">
+        <!--[if IE]><script
+         src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
+        </script><![endif]-->
+    </head>
+
+    <body>
+        <div> <!-- container -->
+            <header>
+                <h1>Result Generator</h1>
+            </header>
+            <main>
+                {% block content %}
+                    This is defalut content!
+                {% endblock %}
+            </main>
+        </div> <!--container-->
+    </body>
+</html>
