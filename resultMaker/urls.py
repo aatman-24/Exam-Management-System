@@ -19,9 +19,11 @@ from django.contrib import admin
 from django.urls import path,include
 from student.urls import student_urls as studentURL
 from examination.urls import exam_urls as examURL
+from users import urls as userURL
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('student/',include(studentURL)),
-    path('exam/', include(examURL))    
+    path('exam/', include(examURL)),
+    path('user/', include(userURL, namespace='dj-auth')),    
 ]

@@ -31,6 +31,24 @@
                     This is defalut content!
                 {% endblock %}
             </main>
+            <div>
+                <div>
+                    <ul>            
+                        {% if user.is_authenticated %}
+                        <li>
+                            <a href="{% url 'dj-auth:logout' %}?next={{ request.path }}">Log Out</a>
+                                            
+                        </li>
+                        {% else %}
+                        <li>
+                            <a href="{% url 'dj-auth:login' %}?next={{ request.path }}">Log In</a>
+                                            
+                        </li>
+                        {% endif %}
+                        
+                    </ul>
+                </div>
+            </div>
         </div> <!--container-->
     </body>
 </html>

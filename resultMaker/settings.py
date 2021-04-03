@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
 from pathlib import Path
+from logs.log_filter import ManagementFilter
+from django.urls import reverse_lazy  
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,10 +29,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
+    'users',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -123,3 +125,57 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# LOGGING COFING.
+verbose = (
+     "[%(asctime)s] %(levelname)s "
+     "[%(name)s:%(lineno)s] %(message)s")
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'fileHandler'],
+            'level': 'DEBUG',
+            'formatter': 'verbose'
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING',
+    },
+    'handlers': {
+        'console': {
+            'level' : 'INFO',
+            'filters' : ['remove_migrations_sql'],
+            'class': 'logging.StreamHandler',
+        },
+        'fileHandler' : {
+            'level' : 'DEBUG',
+            'class' : 'logging.FileHandler',
+            'filters' : ['remove_migrations_sql'],
+            'filename' : './logs/debug.log',
+            'formatter' : 'verbose',
+        }
+    },
+    'formatters' : {
+        'verbose' : {
+            'format' : verbose,
+            'datefmt' : "%Y-%b-%d %H:%M:%S"
+        },
+    },
+    'filters': {
+        'remove_migrations_sql' : {
+            '()' : ManagementFilter,
+        }
+    }
+}
+
+
+
+# LOGIN REDIRECT URLS
+
+LOGIN_REDIRECT_URL = reverse_lazy('student_student_list')
+LOGIN_URL = reverse_lazy('dj-auth:login')
+LOGOUT_URL = reverse_lazy('dj-auth:logout')
