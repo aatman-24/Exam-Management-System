@@ -17,9 +17,9 @@ class Exam(models.Model):
 
     def __str__(self):
         return self.examName 
-
     class Meta:
         ordering = ['-examDate']
+        permissions = (("publish_exam","Can publish new Exams"),)
 
     def get_absolute_url(self):
         return reverse('examination_exam_get',kwargs={'exam_slug':self.slug})
