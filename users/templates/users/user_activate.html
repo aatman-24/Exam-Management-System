@@ -1,0 +1,13 @@
+{% extends parent_template|default:"users/base_user.html" %}
+
+{% block title %}
+{{ block.super }} - Account Activation Failed
+{% endblock %}
+
+{% block content %}
+  <div>
+    <div>
+      <p>This activation link is no longer valid.</p>
+    </div>
+  </div>
+{% endblock %}
