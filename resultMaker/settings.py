@@ -53,6 +53,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+SERVER_EMAIL = 'contact@django-unleashed.com'
+DEFAULT_FROM_EMAIL =    'no-reply@django-unleshed.com'
+EMAIL_SUBJECT_PREFIX =  '[STARTUP-ORGANIZER]'
+MANAGERS = (('Us','ourselves@django-unleashed.com'),)
+
 ROOT_URLCONF = 'resultMaker.urls'
 
 TEMPLATES = [

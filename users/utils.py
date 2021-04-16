@@ -9,6 +9,7 @@ from django.core.exceptions import ValidationError
 import logging
 from logging import CRITICAL, ERROR
 from smtplib import SMTPException
+from django.conf import settings
 
 logger = logging.getLogger(__name__)
 
@@ -84,6 +85,8 @@ class ActivationMailFormMixin:
             'user' : user,
         })
 
+        print("context" + str(context))
+
         return context
 
     def _send_mail(self, request, user, **kwargs):
@@ -131,8 +134,8 @@ class ActivationMailFormMixin:
 
 class MailContextViewMixin:
     
-    email_template_name = 'user/email_create.txt'
-    subject_template_name = 'user/subject_create.txt'
+    email_template_name = 'users/email_create.txt'
+    subject_template_name = 'users/subject_create.txt'
 
     def get_save_kwargs(self, request):
         return {

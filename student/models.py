@@ -36,8 +36,6 @@ class Student(models.Model):
         all_fields = [(field.verbose_name, field.value_to_string(self)) for field in Student._meta.fields]
         return all_fields
 
-
-
 class Profile(models.Model):
     birthDate = models.DateField('Birth Date')
     slug = models.SlugField(max_length=50, unique=True, help_text="A label for URL config.")
@@ -66,8 +64,7 @@ class Profile(models.Model):
 
 
 class ParentProfile(models.Model):
-
-    
+ 
     slug = models.SlugField(max_length=50, unique=True, help_text="A label for URL config.")
     fatherName =  models.CharField('Father Name',max_length=40)
     motherName =  models.CharField('Mother Name',max_length=40)
