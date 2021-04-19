@@ -1,10 +1,12 @@
 from django.db import models
 from django.shortcuts import reverse
-from django.core.validators import MaxValueValidator, MinValueValidator 
+from django.core.validators import MaxValueValidator, MinValueValidator
+from resultMaker import settings
 # Create your models here.
 
 class Student(models.Model):
 
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     fullName = models.CharField("Full Name", max_length=50)
     slug = models.SlugField(max_length=50, unique=True, help_text="A label for URL config.")
     rollNumber = models.PositiveIntegerField("Roll Number", default = 1, validators=[MinValueValidator(1), MaxValueValidator(60)])

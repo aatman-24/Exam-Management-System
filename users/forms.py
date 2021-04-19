@@ -3,7 +3,10 @@ from .utils import  ActivationMailFormMixin
 from django.contrib.auth import get_user_model
 import logging
 from django import forms
+from django.core.exceptions import ValidationError
 
+
+logger = logging.getLogger(__name__)
 class UserCraeationForm(ActivationMailFormMixin, BaseUserCreationForm):
 
     mail_validation_error = (
@@ -13,7 +16,14 @@ class UserCraeationForm(ActivationMailFormMixin, BaseUserCreationForm):
     class Meta(BaseUserCreationForm.Meta):
 
         model = get_user_model()
-        fields = ('username','email')
+        fields = ('username','email',)
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        disallowed = ('activate', 'create', 'disable', 'login', 'logout', 'password', 'student','parentProfile')
+        if username in disallowed:
+            raise ValidationError("A user with that username already exists.")
+        return username
 
     def save(self, **kwargs):
         user = super().save(commit=False)
@@ -28,7 +38,6 @@ class UserCraeationForm(ActivationMailFormMixin, BaseUserCreationForm):
             self.send_mail(user=user,**kwargs)
         return user
 
-logger = logging.getLogger(__name__)
 class ResendActivationEmailForm(ActivationMailFormMixin, forms.Form):
 
     mail_validation_error = (

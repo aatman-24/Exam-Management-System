@@ -7,6 +7,8 @@ from ..utils import pick
 from django.template.context_processors import csrf
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth import get_user
+from config.roles import STUDENT_ROLE
 
 def getStudentBySlug(student_slug):
     student = Student.objects.get(slug=student_slug)
@@ -25,8 +27,12 @@ class studentCreate(View):
     
     def post(self, request):
         bound_form = self.form_class(request.POST)
+        user = get_user(request)
         if bound_form.is_valid():
-            newStudent = bound_form.save()
+            newStudent = bound_form.save(commit=False)
+            newStudent.user = user
+            newStudent.save()
+            user.role = STUDENT_ROLE
             return redirect(newStudent)
         else:
             return render(request, 'student/student_form.html' , {'form':bound_form})

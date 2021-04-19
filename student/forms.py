@@ -14,12 +14,10 @@ class SlugCleanMixin:
 
 class StudentForm(forms.ModelForm, SlugCleanMixin):
 
-    
     std = forms.IntegerField(max_value=12, min_value=11)
-
     class Meta:
         model = Student
-        fields = '__all__'
+        exclude = ('user',)
 
 
 class StudentProfileForm(forms.ModelForm, SlugCleanMixin):

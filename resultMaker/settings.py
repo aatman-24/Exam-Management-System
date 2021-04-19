@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'student',
     'examination',
+    
 ]
 
 MIDDLEWARE = [
@@ -186,3 +187,6 @@ LOGGING = {
 LOGIN_REDIRECT_URL = reverse_lazy('student_student_list')
 LOGIN_URL = reverse_lazy('dj-auth:login')
 LOGOUT_URL = reverse_lazy('dj-auth:logout')
+
+#Override User Model
+AUTH_USER_MODEL = 'users.User'
