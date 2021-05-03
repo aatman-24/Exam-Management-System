@@ -6,7 +6,8 @@ from .models import Exam
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect
 from datetime import datetime
-
+from users.decorator import class_login_required, class_require_authenticated_permisssion, class_login_required
+from django.utils.decorators import method_decorator
 
 
 # Create your views here.
@@ -18,6 +19,7 @@ def getExamBySlug(exam_slug):
     return exam
 
 
+@class_require_authenticated_permisssion('examination.publish_exam')
 class createExam(View):
 
     model = Exam
@@ -37,6 +39,7 @@ class createExam(View):
             return render(request, 'examination/exam_form.html', {'form':bound_form})
 
 
+@class_login_required
 class getExam(View):
 
     model = Exam
@@ -45,7 +48,7 @@ class getExam(View):
         exam = self.model.objects.get(slug=exam_slug)
         return render(request, 'examination/exam_detail.html', {'exam':exam})
 
-
+@class_login_required
 class getExams(View):
 
     model = Exam
@@ -65,7 +68,7 @@ class getExams(View):
         exams = self._getExam(self.exam_type)
         return render(request, 'examination/exam_list.html', {'exams':exams})
 
-
+@class_require_authenticated_permisssion('examination.publish_exam')
 class deleteExam(View):
     model = Exam
     
@@ -79,7 +82,7 @@ class deleteExam(View):
         return redirect('examination_exam_list')
 
 
-    
+@class_require_authenticated_permisssion('examination.publish_exam')
 class updateExam(View):
 
     model = Exam
