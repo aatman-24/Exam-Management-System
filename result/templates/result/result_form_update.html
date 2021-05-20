@@ -1,0 +1,18 @@
+{% extends parent_template|default:"result/base_result.html" %}
+
+{% block title %}
+    {{ block.super }} -  {{result.student.fullName}} - Update Result
+{% endblock title %}
+
+{% block content %}
+    <div>
+        <div>
+            <form action="{{ result.get_update_url }}" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" >Update Result</button>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
+    

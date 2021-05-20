@@ -20,7 +20,9 @@
 
     <a href="{{ student.get_update_url }}"> Update</a>  <br>
     <a href="{{ student.get_delete_url }}"> Delete</a>  <br>
+    <a href="{{ student.get_result_url }}"> Result</a>  <br>
     <a href="{{ student.profile.get.get_absolute_url }}"> {{student.fullName}} Profile</a> <br>
     <a href="{{ student.parent_profile.get.get_absolute_url }}">{{student.fullName}}  Parent Profile</a>
+
 {% endblock content %}
     

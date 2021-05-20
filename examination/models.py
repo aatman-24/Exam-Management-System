@@ -37,6 +37,9 @@ class Exam(models.Model):
     
     def get_exam_date(self):
         return self.examDate
+    
+    def get_result_url(self):
+        return reverse('examination_exam_result', kwargs={'exam_slug':self.slug})
 
     def get_fields(self):
         all_fields = [(field.verbose_name, field.value_to_string(self)) for field in Exam._meta.fields]

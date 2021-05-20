@@ -2,6 +2,7 @@ from django.db import models
 from django.shortcuts import reverse
 from django.core.validators import MaxValueValidator, MinValueValidator
 from resultMaker import settings
+
 # Create your models here.
 
 class Student(models.Model):
@@ -30,6 +31,9 @@ class Student(models.Model):
     
     def get_update_url(self):
         return reverse('student_student_update',kwargs={'student_slug':self.slug})
+
+    def get_result_url(self):
+        return reverse('student_exam_result', kwargs={'student_slug':self.slug})
     
     def get_delete_url(self):
         return reverse('student_student_delete',kwargs={'student_slug':self.slug})

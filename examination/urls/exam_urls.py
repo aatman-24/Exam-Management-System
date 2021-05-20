@@ -1,5 +1,5 @@
 from django.urls import path
-from ..views import createExam , getExam, updateExam, deleteExam, getExams
+from ..views import createExam , getExam, updateExam, deleteExam, getExams, getExamResult
 
 urlpatterns = [
     path('<slug:exam_slug>', getExam.as_view(), name='examination_exam_get'),
@@ -9,4 +9,5 @@ urlpatterns = [
     path('future_exams/', getExams.as_view(exam_type="future"), name='examination_exam_futureExam'),
     path('<slug:exam_slug>/update', updateExam.as_view(), name='examination_exam_update'),
     path('<slug:exam_slug>/delete', deleteExam.as_view(), name='examination_exam_delete'),
+    path('<slug:exam_slug>/result/', getExamResult.as_view(), name='examination_exam_result'),
 ]

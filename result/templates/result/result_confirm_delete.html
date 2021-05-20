@@ -1,0 +1,21 @@
+{% extends parent_template|default:"result/base_result.html" %}
+
+{% block title %}
+    {{ block.super }} -  Create Result
+{% endblock title %}
+
+{% block content %}
+<div>
+    <div>
+        <form action="{{ result.get_delete_url }}" method="post">
+            {% csrf_token %}
+            <p>
+                Are You sure want to Delete a Result of {{result.student.fullName}} for {{result.exam.examName}} ?
+            </p>
+            <a href="{{ result.get_absolute_url }}">Cancel</a>
+            <button type="submit">Delete Result</button>
+        </form>
+    </div>
+</div>      
+{% endblock content %}
+    

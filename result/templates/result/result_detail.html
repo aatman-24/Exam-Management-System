@@ -1,0 +1,35 @@
+{% extends parent_template|default:"result/base_result.html" %}
+
+{% block title %}
+    {{ block.super }} -  {{result.student.fullName}}'s Result
+{% endblock title %}
+
+{% block content %}
+
+    <h3> {{ result.student.fullName}} - {{ result.exam.examName }} </h3>
+
+
+    <table>
+        {% for name, value in result.get_fields %}
+            {% if value %}
+                <tr>
+                    <td> {{ name }} </td>
+                    <td> {{ value }} </td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+
+        {% for name, value in exam.get_fields %}
+        {% if value %}
+            <tr>
+                <td> {{ name }} </td>
+                <td> {{ value }} </td>
+            </tr>
+        {% endif %}
+    {% endfor %}
+    </table>
+
+    <a href="{{ result.get_update_url }}"> Update Result</a>  <br>
+    <a href="{{ result.get_delete_url }}"> Delete Result</a>  <br>
+{% endblock content %}
+    

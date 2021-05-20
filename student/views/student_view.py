@@ -98,7 +98,14 @@ class updateStudent(View):
         return render(request, 'student/student_form_update.html', {'form': bound_form, 'student' : student})
 
 
+class getExamResult(View):
 
+    model = Student
+
+    def get(self, request, student_slug):
+        student = get_object_or_404(self.model, slug=student_slug)
+        results = student.result.all()
+        return render(request, 'student/student_result_list.html', {'student': student, 'results': results})
 
 
 

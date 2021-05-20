@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404, redirect
 from datetime import datetime
 from users.decorator import class_login_required, class_require_authenticated_permisssion, class_login_required
 from django.utils.decorators import method_decorator
+from result.models import Result
 
 
 # Create your views here.
@@ -17,7 +18,6 @@ def getExamBySlug(exam_slug):
     if(exam is None):
         return "No Exam Found"
     return exam
-
 
 @class_require_authenticated_permisssion('examination.publish_exam')
 class createExam(View):
@@ -102,3 +102,12 @@ class updateExam(View):
             messages.success(request, "Exam Updated")
             return redirect(updatedExam)
         return render(request, 'exam/exam_form_update.html', {'form':bound_form, 'exam':exam})
+
+class getExamResult(View):
+
+    model = Exam
+
+    def get(self, request, exam_slug):
+        exam = get_object_or_404(self.model, slug=exam_slug)
+        results = exam.result.all()
+        return render(request, 'examination/exam_result_list.html', {'exam': exam, 'results': results})

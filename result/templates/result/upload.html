@@ -1,0 +1,21 @@
+{% extends parent_template|default:"result/base_result.html" %}
+
+{% block title %}
+    {{ block.super }} - Upload File
+{% endblock title %}
+    
+
+{% block content %}
+    
+    <p>Exam Name :  {{ exam.examName }}</p>
+    <p> examDate : {{ exam.examDate }}</p>
+    <p> marks : {{ exam.marks }}</p> 
+
+    <form action="{% url 'upload_result' exam.slug %}" enctype="multipart/form-data" method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <button type="submit">Upload</button>
+    </form> 
+
+ {% endblock content %} 
+
