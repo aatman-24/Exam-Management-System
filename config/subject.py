@@ -1,3 +1,3 @@
-SUBJECTS = ['English', 'Physic', 'Chemistry', 'Maths', 'Biology', 'Computer']
-JEE_SUBJECTS = ['JEE-Maths', 'JEE-Physic', 'JEE-Chemistry']
-NEET_SUBJECTS = ['NEET-Biology', 'NEET-Physic', 'NEET-Chemistry']
+SUBJECTS = ['English', 'Physic', 'Chemistry', 'Maths', 'Biology', 'Computer',
+'JEE-Maths', 'JEE-Physic', 'JEE-Chemistry', 'NEET-Biology', 'NEET-Physic', 'NEET-Chemistry']
+SUBJECTS_CHOICES =[(name,name) for name in SUBJECTS]

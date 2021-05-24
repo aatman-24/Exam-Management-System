@@ -1,0 +1,28 @@
+{% extends parent_template|default:"study/base_study.html" %}
+
+{% block title %}
+    {{ block.super }} -  {{subject.subjectName}} - Subject
+{% endblock title %}
+
+{% block content %}
+
+    <h3> {{subject.subjectName}} </h3>
+    <table>
+        {% for name, value in subject.get_fields %}
+            {% if value %}
+                <tr>
+                    <td> {{ name }} </td>
+                    <td> {{ value }} </td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+
+    <a href="{{ subject.get_update_url }}"> Update</a>  <br>
+    <a href="{{ subject.get_delete_url }}"> Delete</a>  <br>
+    <!-- <a href="{{ subject.get_result_url }}"> Result</a>  <br> -->
+    <!-- <a href="{{ student.profile.get.get_absolute_url }}"> {{student.fullName}} Profile</a> <br> -->
+    <!-- <a href="{{ student.parent_profile.get.get_absolute_url }}">{{student.fullName}}  Parent Profile</a> -->
+
+{% endblock content %}
+    

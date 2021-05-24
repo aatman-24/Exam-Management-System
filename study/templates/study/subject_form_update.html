@@ -1,0 +1,18 @@
+{% extends parent_template|default:"student/base_student.html" %}
+
+{% block title %}
+    {{ block.super }} -  {{subject.subjectName}} Update Subject
+{% endblock title %}
+
+{% block content %}
+    <div>
+        <div>
+            <form action="{{ subject.get_update_url }}" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" >Update Subject</button>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
+    

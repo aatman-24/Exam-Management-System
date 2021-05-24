@@ -1,0 +1,16 @@
+{% extends parent_template|default:"study/base_study.html" %}
+
+{% block title %}
+    {{ block.super }} -  List of Subjects 
+{% endblock title %}
+
+{% block content %}
+    <h3> List of Subjects </h3>
+    
+    {% for subject in subjects %}
+        <a href="{{ subject.get_absolute_url }}">{{subject.subjectName}}</a>  <br>
+    {% endfor %}
+        
+
+{% endblock content %}
+    

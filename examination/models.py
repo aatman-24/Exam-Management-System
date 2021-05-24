@@ -2,16 +2,14 @@ from django.db import models
 from config.subject import SUBJECTS
 from django.shortcuts import reverse
 from django.core.validators import MaxValueValidator, MinValueValidator
+from study.models import Subject
 
 class Exam(models.Model):
 
     examName = models.CharField("Exam Name", max_length=20)
     examDate = models.DateField(verbose_name="Exam Date", auto_now=False, auto_now_add=False, null=False, blank=False)
     standard = models.PositiveIntegerField("Standard", default=11, validators=[MinValueValidator(11), MaxValueValidator(12)])
-    
-    SUBJECTS_CHOICES =[(name,name) for name in SUBJECTS]
-    subject = models.CharField(verbose_name="Subject",choices= SUBJECTS_CHOICES, max_length=20)
-    
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     slug = models.SlugField(max_length=50, unique=True, help_text="A label for URL config.")
     syallbus = models.CharField(verbose_name="Syallbus", max_length=250)
     marks = models.IntegerField(verbose_name="Total Marks")

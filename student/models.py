@@ -1,6 +1,7 @@
 from django.db import models
 from django.shortcuts import reverse
 from django.core.validators import MaxValueValidator, MinValueValidator
+from study.models import Subject
 from resultMaker import settings
 
 # Create your models here.
@@ -99,6 +100,48 @@ class ParentProfile(models.Model):
        return [(field.verbose_name, field.value_to_string(self)) for field in ParentProfile._meta.fields if field.verbose_name not in ['student']]
 
 
+class SubjectMarks(models.Model):
+
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    totalMarks = models.IntegerField("Total Marks", default=0)
+    totalExam = models.IntegerField("Total Exam", default=0)
+
+    class Meta:
+        ordering = ['student', 'subject']
+
+    def __str__(self):
+        return f"{self.student.fullName} - {self.subject.subjectName}"
+
+class AcademicProfile(models.Model):
+
+    student = models.OneToOneField(Student, on_delete=models.CASCADE)
+    totalMarks = models.IntegerField("Total Marks", default=0)
+    totalExam = models.IntegerField("Total Exam", default=0)
+    subjectmarks = models.ManyToManyField(SubjectMarks, related_name='academic')
+
+    class Meta:
+        ordering = ['student']
+
+    def __str__(self):
+        return f"{self.student.fullName} - {self.totalMarks}"
 
 
+###
 
+
+# from study.models import  Subject, SubjectExamRecord
+# from student.models import Student, SubjectMarks, AcademicProfile
+
+# Subject.objects.create(
+#     subjectName = "physic",
+#     standard = 11,
+#     slug = "physic"
+# )
+
+# AcademicProfile.objects.create(
+#     student = andrew,
+# )
+
+
+###

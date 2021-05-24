@@ -9,6 +9,8 @@ from datetime import datetime
 from users.decorator import class_login_required, class_require_authenticated_permisssion, class_login_required
 from django.utils.decorators import method_decorator
 from result.models import Result
+from study.views.examRecord_views import updateExamRecord, deleteExamRecord
+
 
 
 # Create your views here.
@@ -33,7 +35,7 @@ class createExam(View):
         bound_form = self.form_class(request.POST)
         if bound_form.is_valid():
             newExam = bound_form.save()
-            print(newExam)
+            updateExamRecord(newExam)
             return redirect(newExam)
         else:
             return render(request, 'examination/exam_form.html', {'form':bound_form})
@@ -78,6 +80,7 @@ class deleteExam(View):
 
     def post(self, request, exam_slug):
         exam = get_object_or_404(self.model, slug=exam_slug)
+        deleteExamRecord(exam)
         exam.delete()
         return redirect('examination_exam_list')
 

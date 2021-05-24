@@ -1,0 +1,23 @@
+{% extends parent_template|default:"study/base_study.html" %}
+
+{% block title %}
+    {{ block.super }} -  {{subject.subjectName}} Delete Subject 
+{% endblock title %}
+
+{% block content %}
+<div>
+    <div>
+        <form action="{{ student.get_delete_url }}" method="post">
+            {% csrf_token %}
+            <p>
+                All the Data Related to this Subject will be delete <br>
+
+                Are you sure to delete  {{subject.subjectName}} ?
+            </p>
+            <a href="{{ subject.get_absolute_url }}">Cancel</a>
+            <button type="submit">Delete Subject</button>
+        </form>
+    </div>
+</div>      
+{% endblock content %}
+    
