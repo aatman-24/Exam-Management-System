@@ -1,15 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import View
 from django import http
+from django.contrib import messages
+
+from .student_view import getStudentBySlug
 from ..forms import ParentProfileForm
 from ..models import ParentProfile, Student
-from django.template.context_processors import csrf
-from django.contrib import messages
-from django.shortcuts import get_object_or_404, redirect
-from .student_view import getStudentBySlug
 
-
-class createParentProfile(View):
+class CreateParentProfile(View):
 
     model = ParentProfile
     form_class = ParentProfileForm
@@ -31,7 +29,7 @@ class createParentProfile(View):
             return render(request, 'student/parentProfile_form.html', {'form':bound_form, 'student':student})
 
 
-class getParentProfile(View):
+class GetParentProfile(View):
 
     model = ParentProfile           
 
@@ -42,7 +40,7 @@ class getParentProfile(View):
 
 
 
-class deleteParentProfile(View):
+class DeleteParentProfile(View):
 
     model = ParentProfile
 
@@ -57,7 +55,7 @@ class deleteParentProfile(View):
         return redirect('student_profile_list')
 
 
-class updateParentProfile(View):
+class UpdateParentProfile(View):
 
     model = ParentProfile
     form_class = ParentProfileForm

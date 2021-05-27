@@ -18,7 +18,7 @@ from django.views.decorators.cache import never_cache
 from django.utils.encoding import force_text
 from django.utils.http import  urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator as token_generator
-from resultMaker import settings
+from organizer import settings
 
 class LoginView(auth_views.LoginView):
     template_name = 'users/login.html'

@@ -1,14 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import View
 from django import http
+from django.contrib import messages
 from ..forms import StudentProfileForm
 from ..models import Profile, Student
 from ..utils import pick
 from .student_view import getStudentBySlug
-from django.contrib import messages
-from django.shortcuts import get_object_or_404, redirect
 
-class createStudentProfile(View):
+
+class CreateStudentProfile(View):
 
     model = Profile
     form_class = StudentProfileForm
@@ -29,7 +29,7 @@ class createStudentProfile(View):
         else:
            return render(request, 'student/studentProfile_form.html' , {'form':bound_form, 'student':student})
 
-class getStudentProfile(View):
+class GetStudentProfile(View):
 
     model = Profile           
 
@@ -39,7 +39,7 @@ class getStudentProfile(View):
         return render(request, 'student/studentProfile_detail.html', {'profile': profile, 'student':student})
 
 
-class deleteStudentProfile(View):
+class DeleteStudentProfile(View):
 
     model = Profile
 
@@ -54,7 +54,7 @@ class deleteStudentProfile(View):
         return redirect('student_profile_list')
 
 
-class updateStudentProfile(View):
+class UpdateStudentProfile(View):
 
     model = Profile
     form_class = StudentProfileForm
