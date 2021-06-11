@@ -1,20 +1,15 @@
 from django.db import models
 from django.shortcuts import reverse
 from .student_model import Student
-from autoslug import AutoSlugField
-from django.utils.text import slugify
 
-def mixSlugProfile(instance):
-    return slugify(instance.student) + "- profile"
-    
 class Profile(models.Model):
     birthDate = models.DateField('Birth Date')
+    slug = models.SlugField(max_length=50, unique=True, help_text="A label for URL config.")
     GENDER_CHOICES = [('M','Male'), ('F','Female'), ('O','Other')]
     gender = models.CharField('Gender',choices=GENDER_CHOICES, default='M', max_length=1)
     phoneNumber = models.CharField("Phone Number",max_length=12, unique=True)
     previousSchool = models.CharField('Previous School', max_length=50, null=True, blank=True)
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='profile')
-    slug = AutoSlugField(populate_from=mixSlugProfile, unique=('student'))
     
     def __str__(self):
         # Student Profile : 11-A R-30 panseriya Aatman 

@@ -2,6 +2,8 @@ from django import forms
 from django.core.exceptions import ValidationError 
 from .models import Subject
 from utils.util import SlugCleanMixin
+from django.utils.text import slugify
+from datetime import datetime
 
 
 class SubjectForm(forms.ModelForm, SlugCleanMixin):
@@ -11,5 +13,5 @@ class SubjectForm(forms.ModelForm, SlugCleanMixin):
     class Meta:
 
         model = Subject
-        exclude = ('totalMarks', 'totalExam', 'currentYear', 'slug')
+        exclude = ('totalMarks', 'totalExam', 'currentYear')
 
