@@ -135,51 +135,51 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# LOGGING COFING.
-verbose = (
-     "[%(asctime)s] %(levelname)s "
-     "[%(name)s:%(lineno)s] %(message)s")
+# # LOGGING COFING.
+# verbose = (
+#      "[%(asctime)s] %(levelname)s "
+#      "[%(name)s:%(lineno)s] %(message)s")
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'loggers': {
-        'django': {
-            'handlers': ['console', 'fileHandler'],
-            'level': 'DEBUG',
-            'formatter': 'verbose'
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'WARNING',
-    },
-    'handlers': {
-        'console': {
-            'level' : 'INFO',
-            'filters' : ['remove_migrations_sql'],
-            'class': 'logging.StreamHandler',
-        },
-        'fileHandler' : {
-            'level' : 'DEBUG',
-            'class' : 'logging.FileHandler',
-            'filters' : ['remove_migrations_sql'],
-            'filename' : './logs/debug.log',
-            'formatter' : 'verbose',
-        }
-    },
-    'formatters' : {
-        'verbose' : {
-            'format' : verbose,
-            'datefmt' : "%Y-%b-%d %H:%M:%S"
-        },
-    },
-    'filters': {
-        'remove_migrations_sql' : {
-            '()' : ManagementFilter,
-        }
-    }
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console', 'fileHandler'],
+#             'level': 'DEBUG',
+#             'formatter': 'verbose'
+#         },
+#     },
+#     'root': {
+#         'handlers': ['console'],
+#         'level': 'WARNING',
+#     },
+#     'handlers': {
+#         'console': {
+#             'level' : 'INFO',
+#             'filters' : ['remove_migrations_sql'],
+#             'class': 'logging.StreamHandler',
+#         },
+#         'fileHandler' : {
+#             'level' : 'DEBUG',
+#             'class' : 'logging.FileHandler',
+#             'filters' : ['remove_migrations_sql'],
+#             'filename' : './logs/debug.log',
+#             'formatter' : 'verbose',
+#         }
+#     },
+#     'formatters' : {
+#         'verbose' : {
+#             'format' : verbose,
+#             'datefmt' : "%Y-%b-%d %H:%M:%S"
+#         },
+#     },
+#     'filters': {
+#         'remove_migrations_sql' : {
+#             '()' : ManagementFilter,
+#         }
+#     }
+# }
 
 
 
