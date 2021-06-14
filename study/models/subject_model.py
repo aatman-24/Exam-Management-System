@@ -2,7 +2,12 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.shortcuts import reverse
 from config.subject import  SUBJECTS_CHOICES
+from autoslug import AutoSlugField
+from django.utils.text import slugify
 
+def mixSlugSubject(instance):
+    return slugify(instance.subjectName) + "-std-" +  slugify(instance.standard)
+    
 class Subject(models.Model):
 
     subjectName = models.CharField("Subject Name",choices=SUBJECTS_CHOICES, max_length=20)
@@ -10,7 +15,7 @@ class Subject(models.Model):
     totalMarks = models.IntegerField("Total Exam Marks", default=0)
     totalExam = models.IntegerField("Total Exam", default=0)
     currentYear = models.DateField(auto_now_add=True, null=False, blank=False)
-    slug = models.SlugField(max_length=50, unique=True, help_text="A label for URL config.")
+    slug = AutoSlugField(populate_from=mixSlugSubject, unique_with=('subjectName','currentYear__year'))
     
     class Meta:
         unique_together = ("currentYear", "subjectName", "standard")

@@ -2,19 +2,23 @@ from django.db import models
 from django.shortcuts import reverse
 from django.core.validators import MaxValueValidator, MinValueValidator
 from study.models import Subject
+from autoslug import AutoSlugField
+from django.utils.text import slugify
 
+
+# def mixSlug(instance):
+#     return slugify(instance.examName) + '-' + slugify(instance.subject) 
 class Exam(models.Model):
 
     examName = models.CharField("Exam Name", max_length=20)
     examDate = models.DateField(verbose_name="Exam Date", auto_now=False, auto_now_add=False, null=False, blank=False)
     standard = models.PositiveIntegerField("Standard", default=11, validators=[MinValueValidator(11), MaxValueValidator(12)])
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    slug = models.SlugField(max_length=50, unique=True, help_text="A label for URL config.")
     syallbus = models.CharField(verbose_name="Syallbus", max_length=250)
     marks = models.IntegerField(verbose_name="Total Marks")
     description = models.CharField("Description", max_length=50, null=True, blank=True)
     resultPublished = models.BooleanField("Result Published", default=False)
-    
+    slug = AutoSlugField(populate_from="examName", unique=True)
 
     def __str__(self):
         return self.examName 
