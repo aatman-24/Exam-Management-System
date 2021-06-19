@@ -2,9 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import View
 from django import http
 from django.contrib import messages
-from datetime import datetime
 from django.utils.decorators import method_decorator
-from users.decorator import class_login_required, class_require_authenticated_permisssion, class_login_required
+
+from datetime import datetime
+
+from users.decorator import class_login_required, class_require_authenticated_permisssion
 from result.models import Result
 from study.views import updateExamRecord, deleteExamRecord
 from ..forms import ExamForm
@@ -14,9 +16,7 @@ from ..models import Exam
 # Create your views here.
 
 def GetExamBySlug(exam_slug):
-    exam = Exam.objects.get(slug=exam_slug)
-    if(exam is None):
-        return "No Exam Found"
+    exam = get_object_or_404(Exam, slug = exam_slug)
     return exam
 
 @class_require_authenticated_permisssion('examination.publish_exam')
@@ -45,7 +45,7 @@ class GetExam(View):
     model = Exam
 
     def get(self, request, exam_slug):
-        exam = self.model.objects.get(slug=exam_slug)
+        exam = get_object_or_404(self.model, slug = exam_slug)
         return render(request, 'examination/exam_detail.html', {'exam':exam})
 
 @class_login_required
@@ -66,6 +66,8 @@ class GetExams(View):
 
     def get(self, request):
         exams = self._getExam(self.exam_type)
+        if(exams is None):
+            raise http.Http404
         return render(request, 'examination/exam_list.html', {'exams':exams})
 
 @class_require_authenticated_permisssion('examination.publish_exam')
@@ -73,7 +75,7 @@ class DeleteExam(View):
     model = Exam
     
     def get(self, request, exam_slug):
-        exam = self.model.objects.get(slug=exam_slug)
+        exam = get_object_or_404(self.model, slug = exam_slug) 
         return render(request, 'examination/exam_confirm_delete.html', {'exam':exam})
 
     def post(self, request, exam_slug):
@@ -90,7 +92,7 @@ class UpdateExam(View):
     form_class = ExamForm
 
     def get(self, request, exam_slug):
-        exam = self.model.objects.get(slug=exam_slug)
+        exam = get_object_or_404(self.model, slug = exam_slug) 
         form = self.form_class(instance=exam)
         return render(request, 'examination/exam_form_update.html', {'form':form, 'exam':exam})
 
@@ -103,6 +105,7 @@ class UpdateExam(View):
             return redirect(updatedExam)
         return render(request, 'exam/exam_form_update.html', {'form':bound_form, 'exam':exam})
 
+@class_login_required
 class GetExamResult(View):
 
     model = Exam

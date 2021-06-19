@@ -5,11 +5,8 @@ from django.shortcuts import reverse
 from autoslug import AutoSlugField
 from django.utils.text import slugify
 
-
 def mixResultSlug(instance):
     return slugify(instance.student) + '-' + slugify(instance.exam) 
-
-# Create your models here.
 
 class Result(models.Model):
 
@@ -29,6 +26,8 @@ class Result(models.Model):
     class Meta:
         ordering = ['-publishedDate']
         unique_together = ('student','exam')
+        permissions = (("publish_result","Can publish results"),)
+
 
     def get_absolute_url(self):
         return reverse('result_result_get',kwargs={'result_slug':self.slug})

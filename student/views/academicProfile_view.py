@@ -1,27 +1,31 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, get_list_or_404
 from django.views.generic import View
 from django.http import HttpResponse
 from django.template.context_processors import csrf
 from django.contrib import messages
-from django.contrib.auth import get_user
+from django.contrib.auth import get_user,get_user_model
+from datetime import datetime
     
+
 from ..models import AcademicProfile, SubjectMarks
 from .subjectMarks_view import initialize_subject_for_student
 from study.models import Subject
-from datetime import datetime
+from users.decorator import class_login_required
 
 def add_subjects_for_student(studentAcademic, standard):
     
-    subjects = Subject.objects.filter(standard = standard, currentYear__year = datetime.now().year)
+    subjects = get_list_or_404(Subject, standard = standard, currentYear__year = datetime.now().year)
     for subject in subjects:
         initialize_subject_for_student(studentAcademic, subject)
 
 def get_student_from_request(request):
     user = get_user(request)
-    if(user is not None):
-        pass
+    User = get_user_model()
+    if(user is None):
+        raise User.DoesNotExist("User Not Found")
     return user.student 
 
+@class_login_required
 class CreateAcademicProfile(View):
     
     def get(self, request):
@@ -35,7 +39,7 @@ class CreateAcademicProfile(View):
     
         return HttpResponse("Success")
         
-        
+@class_login_required  
 class GetAcademicProfile(View):
 
     model = AcademicProfile

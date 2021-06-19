@@ -25,6 +25,8 @@ class Student(models.Model):
         verbose_name = 'Student'
         ordering = ['rollNumber']
         unique_together = ("rollNumber", "std", "div")
+        permissions = (("manage_student","Can manages Student"),)
+
 
     def get_absolute_url(self):
         return reverse('student_student_get',kwargs={'student_slug':self.slug})

@@ -9,13 +9,14 @@ from config.roles import STUDENT_ROLE
 from ..forms import StudentForm
 from ..models import Student
 from ..utils import pick
+from users.decorator import class_login_required, class_require_authenticated_permisssion
 
 def getStudentBySlug(student_slug):
-    student = Student.objects.get(slug=student_slug)
-    if(student is None):
-        return "No Student Found"
+    student = get_object_or_404(Student, slud=student_slug)
     return student
 
+
+@class_login_required
 class CreateStudent(View):
 
     model = Student
@@ -37,16 +38,17 @@ class CreateStudent(View):
         else:
             return render(request, 'student/student_form.html' , {'form':bound_form})
 
-
+@class_login_required
 class GetStudent(View):
 
     model = Student
 
     def get(self, request, student_slug):
-        student = self.model.objects.get(slug=student_slug)
+        student= get_object_or_404(self.model, slug = student_slug)
         return render(request, 'student/student_detail.html', {'student': student})
+    
 
-
+@class_require_authenticated_permisssion('student.manage_student')
 class GetStudents(View):
 
     model = Student
@@ -54,6 +56,9 @@ class GetStudents(View):
     def get(self, request):
         options, filter = pick(request.GET)
         resQuery =  self.model.objects.filter(**filter)
+        
+        if(resQuery is None):
+            raise http.Http404
 
         if(options.get('order_by',None) != None):
             resQuery = resQuery.order_by(options['order_by'])
@@ -61,13 +66,13 @@ class GetStudents(View):
         students = resQuery[0:options['limit']]
         return render(request, 'student/student_list.html', {'students': students})
 
-
+@class_require_authenticated_permisssion('student.manage_student')
 class DeleteStudent(View):
 
     model = Student
 
     def get(self, request, student_slug):
-        student = self.model.objects.get(slug=student_slug)
+        student= get_object_or_404(self.model, slug = student_slug)
         return render(request, 'student/student_confirm_delete.html', {'student': student})
 
     
@@ -76,7 +81,7 @@ class DeleteStudent(View):
         student.delete()
         return redirect('student_student_list')
 
-
+@class_login_required
 class UpdateStudent(View):
 
     model = Student
@@ -84,7 +89,7 @@ class UpdateStudent(View):
 
     
     def get(self, request, student_slug):
-        student = self.model.objects.get(slug=student_slug)
+        student= get_object_or_404(self.model, slug = student_slug)
         studentForm = self.form_class(instance=student)
         return render(request, 'student/student_form_update.html', {'form': studentForm, 'student' : student})
 
@@ -97,7 +102,7 @@ class UpdateStudent(View):
             return redirect(updated_student)
         return render(request, 'student/student_form_update.html', {'form': bound_form, 'student' : student})
 
-
+@class_login_required
 class GetExamResult(View):
 
     model = Student

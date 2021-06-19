@@ -1,3 +1,5 @@
+from django.shortcuts import get_object_or_404
+
 from ..models import AcademicProfile, SubjectMarks
 from study.models import Subject
 
@@ -9,8 +11,9 @@ def initialize_subject_for_student(studentAcademic, subject):
     studentAcademic.subjectmarks.add(subjectmark)
     studentAcademic.save()
     
-def add_student_subject_marks(student, subject, totalMarks):    
-    submark = SubjectMarks.objects.get(student=student, subject=subject)
+def add_student_subject_marks(student, subject, totalMarks):
+        
+    submark = get_object_or_404(SubjectMarks, student=student, subject=subject)
     submark.totalMarks += totalMarks
     submark.totalExam  += 1
     submark.save()
@@ -23,6 +26,6 @@ def add_student_subject_marks(student, subject, totalMarks):
     
 
 def update_student_subject_marks(student, subject, update_marks):
-    submark = SubjectMarks.objects.get(student=student, subject=subject)
+    submark = get_object_or_404(SubjectMarks, student=student, subject=subject)
     submark.totalMarks += update_marks
     submark.save()
