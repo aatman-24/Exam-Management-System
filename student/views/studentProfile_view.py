@@ -6,8 +6,8 @@ from django.contrib import messages
 from ..forms import StudentProfileForm
 from ..models import Profile, Student
 from ..utils import pick
-from .student_view import getStudentBySlug
-from users.decorator import class_login_required
+from .student_view import getStudentBySlug, verifyStudent
+from users.decorator import class_login_required, class_require_authenticated_permisssion
 from django.contrib.auth import get_user
 
 @class_login_required
@@ -18,11 +18,13 @@ class CreateStudentProfile(View):
 
     def get(self, request, student_slug):
         student = get_object_or_404(Student, slug = student_slug)
+        verifyStudent(request, student)
         form = self.form_class()
         return render(request, 'student/studentProfile_form.html' , {'form':form, 'student': student})
     
     def post(self, request, student_slug):
         student = get_object_or_404(Student, slug = student_slug)
+        verifyStudent(request, student)
         bound_form = self.form_class(request.POST)
         if bound_form.is_valid():
             newStudentProfile = bound_form.save(commit=False)
@@ -40,9 +42,10 @@ class GetStudentProfile(View):
     def get(self, request, profile_slug):
         profile= get_object_or_404(self.model, slug = profile_slug)
         student = profile.student
+        verifyStudent(request, student)
         return render(request, 'student/studentProfile_detail.html', {'profile': profile, 'student':student})
 
-@class_login_required
+@class_require_authenticated_permisssion('student.manage_student')
 class DeleteStudentProfile(View):
 
     model = Profile
@@ -65,12 +68,16 @@ class UpdateStudentProfile(View):
 
     def get(self, request, profile_slug):
         profile = get_object_or_404(self.model, slug = profile_slug)
+        student = profile.student
+        verifyStudent(request, student)
         profileForm = self.form_class(instance=profile)
         return render(request, 'student/studentProfile_form_update.html', {'form': profileForm, 'profile' : profile})
 
 
     def post(self, request, profile_slug):
         profile = get_object_or_404(self.model, slug=profile_slug)
+        student = profile.student
+        verifyStudent(request, student)
         bound_form = self.form_class(request.POST, instance=profile)
         if(bound_form.is_valid()):            
             updated_profile = bound_form.save()

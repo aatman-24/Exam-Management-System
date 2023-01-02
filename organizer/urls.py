@@ -16,6 +16,8 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path,include
+
+from .views import HomeView
 from student import urls as studentURL
 from examination import urls as examURL
 from users import urls as userURL
@@ -23,6 +25,7 @@ from result import urls as resultURL
 from study import urls as studyURL
 
 urlpatterns = [
+    path('home/', HomeView.as_view(), name='home'),
     path('admin/', admin.site.urls),
     path('student/',include(studentURL)),
     path('exam/', include(examURL)),

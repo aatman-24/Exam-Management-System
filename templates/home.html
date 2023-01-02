@@ -1,0 +1,69 @@
+{% extends parent_template|default:"base.html" %}
+
+{% block title %}
+    {{ block.super }} -  Home Page
+{% endblock title %}
+
+{% block content %}
+
+<!-- 'topScorerOf11' : topScorerOf11,
+'topScorerOf12' : topScorerOf12,
+'futureExams11' : futureExams11,
+'futureExams12' : futureExams12,
+'pastExams11' : pastExams11,
+'pastExams12' : pastExams12, -->
+
+    <h2> Top Scorer of Standard 11 </h2>
+    <div>
+        <table>
+            {% for academicProfile in topScorerOf11 %}
+                    <tr>
+                        <td> {{ academicProfile.student.fullName }} </td>
+                        <td> {{ academicProfile.totalMarks }} </td>
+                    </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+
+    <h2> Top Scorer of Standard 12 </h2>
+    <div>
+        <table>
+            {% for academicProfile in topScorerOf12 %}
+                    <tr>
+                        <td> {{ academicProfile.student.fullName }} </td>
+                        <td> {{ academicProfile.totalMarks }} </td>
+                    </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+
+    <h2> Past Exam of Standard 11 </h2>
+    <div>
+        <table>
+            {% for exam in pastExams11 %}
+                    <tr>
+                        <td> {{ exam.examName }} </td>
+                        <td> {{ exam.examDate }} </td>
+                        <td> {{ exam.standard }} </td>
+                    </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+
+    <h2> Past Exam of Standard 12 </h2>
+    <div>
+        <table>
+            {% for exam in pastExams12 %}
+                    <tr>
+                        <td> {{ exam.examName }} </td>
+                        <td> {{ exam.examDate }} </td>
+                        <td> {{ exam.standard }} </td>
+                    </tr>
+            {% endfor %}
+        </table>
+    </div>
+    
+{% endblock content %}

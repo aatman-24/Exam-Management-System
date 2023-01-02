@@ -6,7 +6,7 @@ from django.contrib import messages
 import openpyxl
 from xlsxwriter.workbook import Workbook
 from examination.models import Exam
-from student.models import Student
+from student.models import Student, AcademicProfile
 from django.shortcuts import get_object_or_404
 
 from config.excel import *
@@ -109,13 +109,13 @@ class GetResults(View):
 class CreateResult(View):
 
     model = Result
-    form = ResultForm
+    form_class = ResultForm
 
     def get(self, request, student_slug, exam_slug):
         student = get_object_or_404(Student, slug = student_slug)
         exam = get_object_or_404(Exam, slug = exam_slug)       
         form =  self.form_class(initial={'student':student, 'exam':exam})
-        return render(request, 'result/result_form.html', {'form':form})
+        return render(request, 'result/result_form.html', {'form':form, 'exam':exam, 'student':student})
 
     def post(self, request, student_slug, exam_slug):
         bound_form = self.form_class(request.POST)
@@ -179,5 +179,7 @@ class DownloadResultFile(View):
         workbook.close()
 
         return response
-    
-    
+
+
+
+

@@ -1,1 +1,2 @@
-from .result_view import UploadResultFile, GetResult, CreateResult, UpdateResult, DeleteResult, GetResults, DownloadResultFile
+from .result_view import UploadResultFile, GetResult, CreateResult, UpdateResult, DeleteResult, GetResults, \
+                DownloadResultFile

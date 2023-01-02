@@ -114,3 +114,46 @@ class GetExamResult(View):
         exam = get_object_or_404(self.model, slug=exam_slug)
         results = exam.result.all()
         return render(request, 'examination/exam_result_list.html', {'exam': exam, 'results': results})
+    
+    
+    
+    
+@class_login_required
+class GetExams(View):
+
+    model = Exam
+    exam_type = None
+
+    def _getExam(self, filter):
+        current_day = datetime.today()
+        if(filter is None):
+            return self.model.objects.all()
+        elif(filter == "past"):
+            return self.model.objects.filter(examDate__lt=current_day)
+        elif(filter == "future"):
+            return self.model.objects.filter(examDate__gte=current_day)
+        return None
+
+    def get(self, request):
+        exams = self._getExam(self.exam_type)
+        if(exams is None):
+            raise http.Http404
+        return render(request, 'examination/exam_list.html', {'exams':exams})
+
+
+
+def getExams(exam_type, std, limit):
+    
+    def _getExam(filter, std=11):
+        current_day = datetime.today()
+        if(filter is None):
+            return Exam.objects.all(standard=std)
+        elif(filter == "past"):
+            return Exam.objects.filter(examDate__lt=current_day, standard=std)
+        elif(filter == "future"):
+            return Exam.objects.filter(examDate__gte=current_day, standard=std)
+        return None
+    
+    exams = _getExam(exam_type, std)
+        
+    return exams[:min(len(exams), limit)]

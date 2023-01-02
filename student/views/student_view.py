@@ -4,6 +4,7 @@ from django import http
 from django.template.context_processors import csrf
 from django.contrib import messages
 from django.contrib.auth import get_user
+from django.core.exceptions import PermissionDenied
 
 from config.roles import STUDENT_ROLE
 from ..forms import StudentForm
@@ -15,6 +16,10 @@ def getStudentBySlug(student_slug):
     student = get_object_or_404(Student, slud=student_slug)
     return student
 
+def verifyStudent(request, student):
+    user = get_user(request)
+    if(user.student != student):
+        raise PermissionDenied
 
 @class_login_required
 class CreateStudent(View):
@@ -44,7 +49,8 @@ class GetStudent(View):
     model = Student
 
     def get(self, request, student_slug):
-        student= get_object_or_404(self.model, slug = student_slug)
+        student = get_object_or_404(self.model, slug = student_slug)
+        verifyStudent(request, student)
         return render(request, 'student/student_detail.html', {'student': student})
     
 
@@ -86,15 +92,16 @@ class UpdateStudent(View):
 
     model = Student
     form_class = StudentForm
-
     
     def get(self, request, student_slug):
         student= get_object_or_404(self.model, slug = student_slug)
+        verifyStudent(request, student)
         studentForm = self.form_class(instance=student)
         return render(request, 'student/student_form_update.html', {'form': studentForm, 'student' : student})
 
     def post(self, request, student_slug):
         student = get_object_or_404(self.model, slug=student_slug)
+        verifyStudent(request, student)
         bound_form = self.form_class(request.POST, instance=student)
         if(bound_form.is_valid()):
             updated_student = bound_form.save()
@@ -109,6 +116,7 @@ class GetExamResult(View):
 
     def get(self, request, student_slug):
         student = get_object_or_404(self.model, slug=student_slug)
+        verifyStudent(request, student)
         student_result = student.result.all()
         return render(request, 'student/student_result_list.html', {'student': student, 'results': student_result})
 
